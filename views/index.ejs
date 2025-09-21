@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Task Tracker</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container mt-4">
+      <h1 class="text-center mb-4">Task Tracker</h1>
+
+      <!-- Form thêm task -->
+      <div class="card">
+        <div class="card-body">
+          <form action="/add" method="POST" class="row g-3">
+            <div class="col-auto">
+              <input
+                type="text"
+                name="description"
+                class="form-control"
+                placeholder="Enter task description"
+                required
+              />
+            </div>
+            <div class="col-auto">
+              <button type="submit" class="btn btn-primary">Add Task</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Danh sách tasks -->
+      <div class="card mt-4">
+        <div class="card-body">
+          <ul class="list-group">
+            <% tasks.forEach(task => { %>
+            <li
+              class="list-group-item d-flex justify-content-between align-items-center"
+            >
+              <span
+                class="<%= task.done ? 'text-decoration-line-through text-success' : '' %>"
+              >
+                <%= task.id %>: <%= task.description %>
+              </span>
+              <% if (!task.done) { %>
+              <div>
+                <form
+                  action="/done/<%= task.id %>"
+                  method="POST"
+                  style="display: inline"
+                >
+                  <button type="submit" class="btn btn-success btn-sm me-2">
+                    Done
+                  </button>
+                </form>
+                <form
+                  action="/delete/<%= task.id %>"
+                  method="POST"
+                  style="display: inline"
+                >
+                  <button type="submit" class="btn btn-danger btn-sm">
+                    Delete
+                  </button>
+                </form>
+              </div>
+              <% } else { %>
+              <span class="badge bg-success">Completed</span>
+              <% } %>
+            </li>
+            <% }); %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
